@@ -10,7 +10,7 @@ const LoginPage = dynamic(() => import("../login"));
 function Bookings({ loggedIn }) {
   React.useEffect(() => {
     if (loggedIn) return; // do nothing if the user is logged in
-    Router.replace("/private", "/login", { shallow: true });
+    Router.replace("/employees", "/login", { shallow: true });
   }, [loggedIn]);
 
   // some hooks here that need to be before the condition
