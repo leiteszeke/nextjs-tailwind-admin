@@ -9,6 +9,8 @@ import Table from "../../components/Table";
 import useSWR from "swr";
 import { getToken } from "../../utils/cookies";
 import { Resource, Stadium } from "#types";
+import Button, { ButtonVariant } from "#components/Button";
+import { Plus } from "#components/Icons";
 
 const LoginPage = dynamic(() => import("../login"));
 // more imports here
@@ -49,7 +51,7 @@ function Stadiums({ loggedIn }) {
       </Helmet>
       <Layout>
         <div className="w-full flex p-4 pb-8">
-          <div className="flex flex-2 flex-wrap">
+          <div className="flex flex-1 flex-wrap">
             <span className="font-bold text-gray-800 leading-none w-full m-0 text-4xl">
               Canchas
             </span>
@@ -57,17 +59,18 @@ function Stadiums({ loggedIn }) {
               {data?.meta?.total} canchas
             </span>
           </div>
-          <div className="flex items-center flex-1">
-            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mr-2 leading-tight focus:outline-none focus:shadow-outline" />
-            <button
-              type="button"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Agregar
-            </button>
+          <div className="flex items-center flex-1 justify-end">
+            <input className="shadow appearance-none border rounded flex-1 py-2 px-3 text-gray-700 mr-2 leading-tight focus:outline-none focus:shadow-outline" />
+            <Button
+              label="Agregar"
+              icon={Plus}
+              iconSize={30}
+              onClick={() => {}}
+              variant={ButtonVariant.PRIMARY}
+            />
           </div>
         </div>
-        <Table columns={columns} items={data || []} />
+        <Table columns={columns} meta={data?.meta || {}} items={data || []} />
       </Layout>
     </>
   );
