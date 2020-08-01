@@ -1,7 +1,32 @@
+import React from "react";
+import { encode } from "js-base64";
+import { setCookie } from "../../utils/cookies";
 import Router from "next/router";
 
 function Login() {
-  const onSubmit = () => Router.replace("/login", "/dashboard");
+  const emailRef = React.useRef<string>("");
+  const passwordRef = React.useRef<string>("");
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const request = await fetch("/api/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email: emailRef.current,
+          password: passwordRef.current,
+        }),
+      });
+      const response = await request.json();
+      const data = encode(JSON.stringify(response.data));
+
+      setCookie("mas1ManagementAdmin", data);
+      Router.push("/dashboard");
+    } catch (e) {
+      console.warn(e);
+    }
+  };
 
   return (
     <div className="w-full flex flex-row h-screen overflow-hidden">
@@ -20,6 +45,7 @@ function Login() {
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="username"
+              onChange={(e) => (emailRef.current = e.target.value)}
               type="text"
               placeholder="Username"
             />
@@ -34,6 +60,7 @@ function Login() {
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
               id="password"
+              onChange={(e) => (passwordRef.current = e.target.value)}
               type="password"
               placeholder="******************"
             />

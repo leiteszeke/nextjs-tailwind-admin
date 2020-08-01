@@ -4,7 +4,6 @@ import Router from "next/router";
 
 const LoginPage = dynamic(() => import("./login"));
 const DashboardPage = dynamic(() => import("./dashboard"));
-// more imports here
 
 function Index({ loggedIn }) {
   React.useEffect(() => {
